@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Install MedSaathi — Add to Home Screen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0A5C45"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="MedSaathi"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --g1: #0A5C45;
+      --g2: #0F7A5A;
+      --g3: #1AAF82;
+      --pale: #D6F5EC;
+      --glow: #A8EDD6;
+      --amber: #F59E0B;
+      --white: #FFFFFF;
+      --text: #0D1F1A;
+      --muted: #6B8F83;
+      --bg: #F4FBF8;
+      --card: #FFFFFF;
+      --border: rgba(10,92,69,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--g1);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 60px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* animated background circles */
+    .bg-orb {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,175,130,0.15) 0%, transparent 70%);
+      pointer-events: none; animation: orbFloat 8s ease-in-out infinite;
+    }
+    .bg-orb.o1 { width: 500px; height: 500px; top: -150px; left: -150px; animation-delay: 0s; }
+    .bg-orb.o2 { width: 350px; height: 350px; bottom: -100px; right: -80px; animation-delay: -3s; }
+    .bg-orb.o3 { width: 200px; height: 200px; top: 40%; left: 60%; animation-delay: -5s; }
+
+    @keyframes orbFloat { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-30px) scale(1.05)} }
+
+    /* app icon */
+    .app-icon-wrap {
+      position: relative; margin-bottom: 28px;
+      animation: iconDrop .8s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes iconDrop { from{opacity:0;transform:translateY(-40px) scale(.8)} to{opacity:1;transform:none} }
+
+    .app-icon {
+      width: 110px; height: 110px; border-radius: 26px;
+      background: linear-gradient(135deg, #0F7A5A, #1AAF82);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 54px; margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 0 3px rgba(255,255,255,0.1);
+    }
+    .icon-badge {
+      position: absolute; bottom: -6px; right: -6px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--amber); border: 3px solid var(--g1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5)} 50%{box-shadow:0 0 0 10px rgba(245,158,11,0)} }
+
+    .hero-title {
+      font-size: clamp(28px, 7vw, 48px); font-weight: 800;
+      color: var(--white); letter-spacing: -1px; line-height: 1.1;
+      margin-bottom: 10px;
+      animation: fadeUp .7s .2s ease both;
+    }
+    .hero-title span { color: var(--g3); }
+
+    .hero-sub {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 16px; color: rgba(255,255,255,0.65);
+      max-width: 360px; line-height: 1.7; margin-bottom: 36px;
+      animation: fadeUp .7s .3s ease both;
+    }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+    /* ── MAIN INSTALL BUTTON ── */
+    .install-btn-wrap { animation: fadeUp .7s .4s ease both; margin-bottom: 16px; }
+
+    .install-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--white); color: var(--g1);
+      padding: 18px 36px; border-radius: 50px; border: none;
+      font-size: 17px; font-weight: 800; cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 0 rgba(255,255,255,0);
+      transition: transform .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
+    }
+    .install-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(26,175,130,0.08), transparent);
+      opacity: 0; transition: opacity .2s;
+    }
+    .install-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+    .install-btn:hover::before { opacity: 1; }
+    .install-btn:active { transform: translateY(0); }
+    .install-btn .btn-icon { font-size: 22px; }
+    .install-btn .btn-text { display: flex; flex-direction: column; align-items: flex-start; }
+    .install-btn .btn-main { font-size: 16px; font-weight: 800; line-height: 1; }
+    .install-btn .btn-sub { font-size: 11px; font-weight: 500; color: var(--g2); margin-top: 2px; }
+
+    /* hidden by default — shown via JS */
+    #install-btn-pwa { display: none; }
+
+    .open-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent; color: rgba(255,255,255,0.7);
+      padding: 12px 24px; border-radius: 50px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: 'Sora', sans-serif; text-decoration: none;
+      transition: all .2s; margin-top: 4px;
+      animation: fadeUp .7s .5s ease both; display: inline-flex;
+    }
+    .open-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.4); color: #fff; }
+
+    .already-note {
+      font-size: 12px; color: rgba(255,255,255,0.4);
+      margin-top: 16px;
+      animation: fadeUp .7s .6s ease both;
+    }
+
+    /* ── FEATURES STRIP ── */
+    .features-strip {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+      margin-top: 48px;
+      animation: fadeUp .7s .6s ease both;
+    }
+    .feat-chip {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 8px 14px; border-radius: 50px;
+      font-size: 13px; color: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px);
+    }
+
+    /* ── HOW TO INSTALL ── */
+    .how-section {
+      padding: 70px 24px;
+      background: var(--bg);
+    }
+    .section-center { text-align: center; margin-bottom: 40px; }
+    .section-tag { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--g2); margin-bottom: 10px; display: block; }
+    .section-title { font-size: clamp(22px, 4vw, 34px); font-weight: 800; color: var(--text); letter-spacing: -.5px; }
+
+    .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
+    .tab-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 10px 20px; border-radius: 50px;
+      border: 1.5px solid var(--border); background: var(--card);
+      font-size: 14px; font-weight: 600; color: var(--muted);
+      cursor: pointer; transition: all .15s; font-family: 'Sora', sans-serif;
+      box-shadow: 0 2px 8px rgba(10,92,69,0.06);
+    }
+    .tab-btn.active { background: var(--g1); border-color: var(--g1); color: var(--white); }
+
+    .tab-content { display: none; max-width: 500px; margin: 0 auto; }
+    .tab-content.active { display: block; }
+
+    .step-list { display: flex; flex-direction: column; gap: 0; }
+    .step { display: flex; gap: 16px; align-items: flex-start; }
+    .step-left { display: flex; flex-direction: column; align-items: center; }
+    .step-num {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--g1); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 800; flex-shrink: 0;
+    }
+    .step-line { width: 2px; flex: 1; min-height: 24px; background: var(--pale); margin: 4px 0; }
+    .step-body { padding-bottom: 24px; flex: 1; }
+    .step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .step-desc { font-family: 'Noto Sans', sans-serif; font-size: 14px; color: var(--muted); line-height: 1.65; }
+    .step-img {
+      margin-top: 10px; background: var(--g1);
+      border-radius: 12px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: rgba(255,255,255,0.85);
+    }
+
+    /* ── WHY INSTALL ── */
+    .why-section { padding: 0 24px 70px; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 800px; margin: 0 auto; }
+    .why-card {
+      background: var(--card); border-radius: 16px; padding: 22px 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(10,92,69,0.07);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .why-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(10,92,69,0.12); }
+    .why-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .why-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .why-desc { font-family: 'Noto Sans', sans-serif; font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* ── BOTTOM CTA ── */
+    .bottom-cta {
+      background: var(--g1); padding: 60px 24px;
+      text-align: center;
+    }
+    .bottom-cta h2 { font-size: clamp(22px, 4vw, 32px); font-weight: 800; color: var(--white); margin-bottom: 10px; letter-spacing: -.4px; }
+    .bottom-cta p { font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 28px; font-family: 'Noto Sans', sans-serif; }
+    .bottom-install-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--white); color: var(--g1);
+      padding: 16px 32px; border-radius: 50px; border: none;
+      font-size: 16px; font-weight: 800; cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .bottom-install-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,0.25); }
+
+    /* ── SUCCESS TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--g1); color: var(--white);
+      padding: 14px 24px; border-radius: 50px;
+      font-size: 14px; font-weight: 600;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      transition: transform .4s cubic-bezier(.22,1,.36,1);
+      z-index: 999; white-space: nowrap;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── INSTALLED BANNER ── */
+    .installed-banner {
+      display: none;
+      background: #D6F5EC; border: 1px solid #A8EDD6;
+      padding: 12px 20px; border-radius: 50px;
+      font-size: 13px; font-weight: 600; color: var(--g1);
+      margin-top: 16px; align-items: center; gap: 8px;
+      animation: fadeUp .5s ease both;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .hero { padding: 50px 18px 60px; }
+      .install-btn { padding: 16px 28px; }
+      .install-btn .btn-main { font-size: 15px; }
+      .features-strip { gap: 8px; }
+      .feat-chip { font-size: 12px; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="bg-orb o1"></div>
+  <div class="bg-orb o2"></div>
+  <div class="bg-orb o3"></div>
+
+  <div class="app-icon-wrap">
+    <div class="app-icon">💊</div>
+    <div class="icon-badge">⭐</div>
+  </div>
+
+  <h1 class="hero-title">Install <span>MedSaathi</span><br/>on your phone</h1>
+  <p class="hero-sub">Add to your home screen — works like a real app, completely free, no Play Store needed 🇮🇳</p>
+
+  <!-- PWA install button (shown on Android/desktop when installable) -->
+  <div class="install-btn-wrap">
+    <button class="install-btn" id="install-btn-pwa" onclick="installPWA()">
+      <span class="btn-icon">📲</span>
+      <span class="btn-text">
+        <span class="btn-main">Install MedSaathi</span>
+        <span class="btn-sub">Tap to add to home screen</span>
+      </span>
+    </button>
+
+    <!-- Manual instructions button (always visible as fallback) -->
+    <button class="install-btn" id="install-btn-manual" onclick="showManual()">
+      <span class="btn-icon">📲</span>
+      <span class="btn-text">
+        <span class="btn-main">Add to Home Screen</span>
+        <span class="btn-sub">See step-by-step guide below</span>
+      </span>
+    </button>
+  </div>
+
+  <a class="open-btn" href="index.html">
+    🌐 Open in browser instead
+  </a>
+
+  <p class="already-note">Already installed? <a href="dashboard.html" style="color:var(--glow);">Open app →</a></p>
+
+  <div class="features-strip">
+    <div class="feat-chip">📱 Works on any phone</div>
+    <div class="feat-chip">⚡ Instant open</div>
+    <div class="feat-chip">📶 Works offline</div>
+    <div class="feat-chip">🔒 100% free</div>
+  </div>
+</section>
+
+<!-- HOW TO INSTALL -->
+<section class="how-section" id="how-to">
+  <div class="section-center">
+    <span class="section-tag">Step by step</span>
+    <h2 class="section-title">How to install MedSaathi</h2>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('android', this)">🤖 Android</button>
+    <button class="tab-btn" onclick="switchTab('iphone', this)">🍎 iPhone</button>
+  </div>
+
+  <!-- ANDROID STEPS -->
+  <div class="tab-content active" id="tab-android">
+    <div class="step-list">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Open MedSaathi in Chrome</div>
+          <div class="step-desc">Open your Chrome browser and go to the MedSaathi website link. Make sure you're using Chrome — not Samsung browser.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Tap the 3 dots menu ⋮</div>
+          <div class="step-desc">In the top right corner of Chrome, tap the three vertical dots to open the menu.</div>
+          <div class="step-img">⋮ → Menu appears at bottom of screen</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Tap "Add to Home screen"</div>
+          <div class="step-desc">Scroll down in the menu and tap "Add to Home screen". A popup will appear with the MedSaathi name.</div>
+          <div class="step-img">📲 "Add to Home screen" option in menu</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Tap "Add" — Done! 🎉</div>
+          <div class="step-desc">Confirm by tapping "Add". MedSaathi icon will appear on your home screen instantly. Tap it to open like any app!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IPHONE STEPS -->
+  <div class="tab-content" id="tab-iphone">
+    <div class="step-list">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Open MedSaathi in Safari</div>
+          <div class="step-desc">Open Safari (not Chrome) on your iPhone and go to the MedSaathi website link. This only works in Safari on iPhone.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Tap the Share button</div>
+          <div class="step-desc">At the bottom of Safari, tap the Share button — it looks like a box with an arrow pointing upward ↑</div>
+          <div class="step-img">⬆️ Share button at the bottom of Safari</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Tap "Add to Home Screen"</div>
+          <div class="step-desc">Scroll down in the share sheet and tap "Add to Home Screen". You'll see a preview of the MedSaathi icon.</div>
+          <div class="step-img">➕ "Add to Home Screen" in share sheet</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-title">Tap "Add" — Done! 🎉</div>
+          <div class="step-desc">Tap "Add" in the top right. MedSaathi icon appears on your home screen. Open it and it runs fullscreen like a real app!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY INSTALL -->
+<section class="why-section">
+  <div class="section-center">
+    <span class="section-tag">Benefits</span>
+    <h2 class="section-title">Why install instead of bookmarking?</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <span class="why-icon">⚡</span>
+      <div class="why-title">Opens instantly</div>
+      <div class="why-desc">No browser, no URL typing. Just tap the icon and MedSaathi opens in 1 second — full screen, no distractions.</div>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">📶</span>
+      <div class="why-title">Works offline</div>
+      <div class="why-desc">Even without internet your reminders and data are accessible. Perfect for areas with weak signal.</div>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🏠</span>
+      <div class="why-title">Lives on home screen</div>
+      <div class="why-desc">Sits right next to WhatsApp and Instagram. You'll never forget to check your health reminders.</div>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🔒</span>
+      <div class="why-title">No Play Store needed</div>
+      <div class="why-desc">Install in 4 taps. No app store, no downloads, no permissions, no storage used. Completely free forever.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta">
+  <h2>Ready to install? 🚀</h2>
+  <p>Join thousands of Indian families keeping their health on track</p>
+  <button class="bottom-install-btn" onclick="scrollToInstall()">
+    📲 Install MedSaathi Now
+  </button>
+</section>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ MedSaathi installed successfully!</div>
+
+<script>
+  // ── PWA INSTALL PROMPT ──
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // show PWA button, hide manual button
+    document.getElementById('install-btn-pwa').style.display = 'inline-flex';
+    document.getElementById('install-btn-manual').style.display = 'none';
+  });
+
+  async function installPWA() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      showToast('🎉 MedSaathi added to home screen!');
+      document.getElementById('install-btn-pwa').style.display = 'none';
+    }
+    deferredPrompt = null;
+  }
+
+  window.addEventListener('appinstalled', () => {
+    showToast('🎉 MedSaathi installed successfully!');
+  });
+
+  // ── MANUAL INSTALL ──
+  function showManual() {
+    document.getElementById('how-to').scrollIntoView({ behavior: 'smooth' });
+    // auto detect iPhone
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) switchTab('iphone', document.querySelectorAll('.tab-btn')[1]);
+  }
+
+  function scrollToInstall() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── TABS ──
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── TOAST ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // ── SERVICE WORKER ──
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('SW ready'))
+        .catch(e => console.log('SW error', e));
+    });
+  }
+
+  // ── AUTO DETECT iOS and switch tab ──
+  window.addEventListener('load', () => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+      switchTab('iphone', document.querySelectorAll('.tab-btn')[1]);
+    }
+  });
+</script>
+</body>
+</html>
